@@ -1,14 +1,19 @@
-let request = new XMLHttpRequest();
+/*let request = new XMLHttpRequest();
 request.open('GET','https://varunsharmasgr.github.io/lab8/products.json');
 request.responseType = 'json';
 request.send();
+*/
 
+// Used Fetch api to get json data from link and add products
+fetch('https://varunsharmasgr.github.io/lab8/products.json')
+  .then(response => response.json())
+  .then(data => addProducts(data));
 
-request.onload = function(){
+//request.onload = function(){
 	
-    let data = request.response;
-    addProducts(data);
-};
+//    let data = request.response;
+//    addProducts(data);
+//};
 
 function addProducts(data)
 {
@@ -37,4 +42,29 @@ function addProducts(data)
         li.appendChild(desc);
         myList.appendChild(li);
     }
+}
+
+function geoFindMe() {
+
+
+  function success(position) {
+    const latitude  = position.coords.latitude;
+    const longitude = position.coords.longitude;
+
+    status.textContent = '';
+    mapLink.href = `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`;
+    mapLink.textContent = `Latitude: ${latitude} °, Longitude: ${longitude} °`;
+  }
+
+  function error() {
+    status.textContent = 'Unable to retrieve your location';
+  }
+
+  if(!navigator.geolocation) {
+    status.textContent = 'Geolocation is not supported by your browser';
+  } else {
+    status.textContent = 'Locating…';
+    navigator.geolocation.getCurrentPosition(success, error);
+  }
+
 }
